@@ -1,0 +1,36 @@
+fluentd:
+    restart: always
+    build: ./fluentd
+    volumes:
+     - /var/lib/docker/containers:/var/lib/docker/containers
+     - /var/log/docker:/var/log/docker
+
+datadog:
+  restart: always
+  build: ./datadog
+  links:
+    - fluentd:fluentd
+  environment:
+   - API_KEY=__your_datadog_api_key_here__
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - /proc/mounts:/host/proc/mounts:ro
+   - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+
+# cadvisor:
+#   image: google/cadvisor
+#   name: cadvisor
+#   ports:
+#     - "8080:8080"
+#   volumes:
+#     - /:/rootfs:ro
+#     - /var/run:/var/run:rw
+#     - /sys:/sys:ro
+#     - /var/lib/docker/:/var/lib/docker:ro
+
+# fluentd:
+#   restart: always
+#   image: kiyoto/docker-fluentd:latest
+#   volumes:
+#     - /var/lib/docker/containers:/var/lib/docker/containers
+

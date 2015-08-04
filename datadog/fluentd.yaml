@@ -1,0 +1,7 @@
+init_config:
+
+instances:
+    # For every instance, you have an `monitor_agent_url`
+    # and (optionally) a list of tags.
+    -  monitor_agent_url: 0.0.0.0:24220/api/plugins.json
+       tag_by: type
